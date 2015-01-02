@@ -868,7 +868,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleData<? exte
 			if (position[0] >= mOffsetLeft && position[0] <= getWidth()) {
 
 				mDrawCanvas.drawLine(position[0], mOffsetTop, position[0],
-						getHeight() + 100, mGridPaint);
+						getHeight(), mGridPaint);
 			}
 		}
 	}

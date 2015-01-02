@@ -1,4 +1,3 @@
-
 package com.github.mikephil.charting.data;
 
 import android.content.Context;
@@ -12,261 +11,287 @@ import java.util.ArrayList;
 
 public class LineDataSet extends LineRadarDataSet<Entry> {
 
-    /** arraylist representing all colors that are used for the circles */
-    private ArrayList<Integer> mCircleColors = null;
-    
-    /** the radius of the circle-shaped value indicators */
-    private float mCircleSize = 4f;
+	/** arraylist representing all colors that are used for the circles */
+	private ArrayList<Integer> mCircleColors = null;
 
-    /** sets the intensity of the cubic lines */
-    private float mCubicIntensity = 0.2f;
+	/** the radius of the circle-shaped value indicators */
+	private float mCircleSize = 4f;
 
-    /** the path effect of this DataSet that makes dashed lines possible */
-    private DashPathEffect mDashPathEffect = null;
+	/** sets the intensity of the cubic lines */
+	private float mCubicIntensity = 0.2f;
 
-    /** if true, drawing circles is enabled */
-    private boolean mDrawCircles = true;
+	/** the path effect of this DataSet that makes dashed lines possible */
+	private DashPathEffect mDashPathEffect = null;
 
-    /** if true, cubic lines are drawn instead of linear */
-    private boolean mDrawCubic = false;
+	/** if true, drawing circles is enabled */
+	private boolean mDrawCircles = true;
 
-    public LineDataSet(ArrayList<Entry> yVals, String label) {
-        super(yVals, label);
+	/** if true, only fill the last drawing circles is enabled */
+	private boolean mCircleFillLastOnly = false;
 
-        // mCircleSize = Utils.convertDpToPixel(4f);
-        // mLineWidth = Utils.convertDpToPixel(1f);
+	/** if true, cubic lines are drawn instead of linear */
+	private boolean mDrawCubic = false;
 
-        mCircleColors = new ArrayList<Integer>();
+	public LineDataSet(ArrayList<Entry> yVals, String label) {
+		super(yVals, label);
 
-        // default colors
-        // mColors.add(Color.rgb(192, 255, 140));
-        // mColors.add(Color.rgb(255, 247, 140));
-        mCircleColors.add(Color.rgb(140, 234, 255));
-    }
+		// mCircleSize = Utils.convertDpToPixel(4f);
+		// mLineWidth = Utils.convertDpToPixel(1f);
 
-    @Override
-    public DataSet<Entry> copy() {
+		mCircleColors = new ArrayList<Integer>();
 
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
+		// default colors
+		// mColors.add(Color.rgb(192, 255, 140));
+		// mColors.add(Color.rgb(255, 247, 140));
+		mCircleColors.add(Color.rgb(140, 234, 255));
+	}
 
-        for (int i = 0; i < mYVals.size(); i++) {
-            yVals.add(mYVals.get(i).copy());
-        }
+	@Override
+	public DataSet<Entry> copy() {
 
-        LineDataSet copied = new LineDataSet(yVals, getLabel());
-        copied.mColors = mColors;
-        copied.mCircleSize = mCircleSize;
-        copied.mCircleColors = mCircleColors;
-        copied.mDashPathEffect = mDashPathEffect;
-        copied.mDrawCircles = mDrawCircles;
-        copied.mDrawCubic = mDrawCubic;
-        copied.mHighLightColor = mHighLightColor;
+		ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-        return copied;
-    }
+		for (int i = 0; i < mYVals.size(); i++) {
+			yVals.add(mYVals.get(i).copy());
+		}
 
-    /**
-     * Sets the intensity for cubic lines (if enabled). Max = 1f = very cubic,
-     * Min = 0.05f = low cubic effect, Default: 0.2f
-     * 
-     * @param intensity
-     */
-    public void setCubicIntensity(float intensity) {
+		LineDataSet copied = new LineDataSet(yVals, getLabel());
+		copied.mColors = mColors;
+		copied.mCircleSize = mCircleSize;
+		copied.mCircleColors = mCircleColors;
+		copied.mDashPathEffect = mDashPathEffect;
+		copied.mDrawCircles = mDrawCircles;
+		copied.mCircleFillLastOnly = mCircleFillLastOnly;
+		copied.mDrawCubic = mDrawCubic;
+		copied.mHighLightColor = mHighLightColor;
 
-        if (intensity > 1f)
-            intensity = 1f;
-        if (intensity < 0.05f)
-            intensity = 0.05f;
+		return copied;
+	}
 
-        mCubicIntensity = intensity;
-    }
+	/**
+	 * Sets the intensity for cubic lines (if enabled). Max = 1f = very cubic,
+	 * Min = 0.05f = low cubic effect, Default: 0.2f
+	 * 
+	 * @param intensity
+	 */
+	public void setCubicIntensity(float intensity) {
 
-    /**
-     * Returns the intensity of the cubic lines (the effect intensity).
-     * 
-     * @return
-     */
-    public float getCubicIntensity() {
-        return mCubicIntensity;
-    }
+		if (intensity > 1f)
+			intensity = 1f;
+		if (intensity < 0.05f)
+			intensity = 0.05f;
 
-    /**
-     * sets the size (radius) of the circle shpaed value indicators, default
-     * size = 4f
-     * 
-     * @param size
-     */
-    public void setCircleSize(float size) {
-        mCircleSize = Utils.convertDpToPixel(size);
-    }
+		mCubicIntensity = intensity;
+	}
 
-    /**
-     * returns the circlesize
-     */
-    public float getCircleSize() {
-        return mCircleSize;
-    }
+	/**
+	 * Returns the intensity of the cubic lines (the effect intensity).
+	 * 
+	 * @return
+	 */
+	public float getCubicIntensity() {
+		return mCubicIntensity;
+	}
 
-    /**
-     * Enables the line to be drawn in dashed mode, e.g. like this "- - - - - -"
-     * 
-     * @param lineLength the length of the line pieces
-     * @param spaceLength the length of space inbetween the pieces
-     * @param phase offset, in degrees (normally, use 0)
-     */
-    public void enableDashedLine(float lineLength, float spaceLength, float phase) {
-        mDashPathEffect = new DashPathEffect(new float[] {
-                lineLength, spaceLength
-        }, phase);
-    }
+	/**
+	 * sets the size (radius) of the circle shpaed value indicators, default
+	 * size = 4f
+	 * 
+	 * @param size
+	 */
+	public void setCircleSize(float size) {
+		mCircleSize = Utils.convertDpToPixel(size);
+	}
 
-    /**
-     * Disables the line to be drawn in dashed mode.
-     */
-    public void disableDashedLine() {
-        mDashPathEffect = null;
-    }
+	/**
+	 * returns the circlesize
+	 */
+	public float getCircleSize() {
+		return mCircleSize;
+	}
 
-    /**
-     * Returns true if the dashed-line effect is enabled, false if not.
-     * 
-     * @return
-     */
-    public boolean isDashedLineEnabled() {
-        return mDashPathEffect == null ? false : true;
-    }
+	/**
+	 * Enables the line to be drawn in dashed mode, e.g. like this "- - - - - -"
+	 * 
+	 * @param lineLength
+	 *            the length of the line pieces
+	 * @param spaceLength
+	 *            the length of space inbetween the pieces
+	 * @param phase
+	 *            offset, in degrees (normally, use 0)
+	 */
+	public void enableDashedLine(float lineLength, float spaceLength,
+			float phase) {
+		mDashPathEffect = new DashPathEffect(new float[] { lineLength,
+				spaceLength }, phase);
+	}
 
-    /**
-     * returns the DashPathEffect that is set for this DataSet
-     * 
-     * @return
-     */
-    public DashPathEffect getDashPathEffect() {
-        return mDashPathEffect;
-    }
+	/**
+	 * Disables the line to be drawn in dashed mode.
+	 */
+	public void disableDashedLine() {
+		mDashPathEffect = null;
+	}
 
-    /**
-     * set this to true to enable the drawing of circle indicators for this
-     * DataSet, default true
-     * 
-     * @param enabled
-     */
-    public void setDrawCircles(boolean enabled) {
-        this.mDrawCircles = enabled;
-    }
+	/**
+	 * Returns true if the dashed-line effect is enabled, false if not.
+	 * 
+	 * @return
+	 */
+	public boolean isDashedLineEnabled() {
+		return mDashPathEffect == null ? false : true;
+	}
 
-    /**
-     * returns true if drawing circles for this DataSet is enabled, false if not
-     * 
-     * @return
-     */
-    public boolean isDrawCirclesEnabled() {
-        return mDrawCircles;
-    }
+	/**
+	 * returns the DashPathEffect that is set for this DataSet
+	 * 
+	 * @return
+	 */
+	public DashPathEffect getDashPathEffect() {
+		return mDashPathEffect;
+	}
 
-    /**
-     * If set to true, the linechart lines are drawn in cubic-style instead of
-     * linear. Default: false
-     * 
-     * @param enabled
-     */
-    public void setDrawCubic(boolean enabled) {
-        mDrawCubic = enabled;
-    }
+	/**
+	 * set this to true to enable the drawing of circle indicators for this
+	 * DataSet, default true
+	 * 
+	 * @param enabled
+	 */
+	public void setDrawCircles(boolean enabled) {
+		this.mDrawCircles = enabled;
+	}
 
-    /**
-     * returns true if drawing cubic lines is enabled, false if not.
-     * 
-     * @return
-     */
-    public boolean isDrawCubicEnabled() {
-        return mDrawCubic;
-    }
+	/**
+	 * set this to true to enable the drawing the last of circle indicators for
+	 * this DataSet, default true
+	 * 
+	 * @param enabled
+	 */
+	public void setDrawCirclesFillLastOnly(boolean enabled) {
+		this.mCircleFillLastOnly = enabled;
+	}
 
-    /** ALL CODE BELOW RELATED TO CIRCLE-COLORS */
+	/**
+	 * returns true if drawing circles for this DataSet is enabled, false if not
+	 * 
+	 * @return
+	 */
+	public boolean isDrawCirclesFillLastOnlyEnabled() {
+		return mCircleFillLastOnly;
+	}
 
-    /**
-     * returns all colors specified for the circles
-     * 
-     * @return
-     */
-    public ArrayList<Integer> getCircleColors() {
-        return mCircleColors;
-    }
+	/**
+	 * returns true if drawing circles for this DataSet is enabled, false if not
+	 * 
+	 * @return
+	 */
+	public boolean isDrawCirclesEnabled() {
+		return mDrawCircles;
+	}
 
-    /**
-     * Returns the color at the given index of the DataSet's circle-color array.
-     * Performs a IndexOutOfBounds check by modulus.
-     * 
-     * @param index
-     * @return
-     */
-    public int getCircleColor(int index) {
-        return mCircleColors.get(index % mCircleColors.size());
-    }
+	/**
+	 * If set to true, the linechart lines are drawn in cubic-style instead of
+	 * linear. Default: false
+	 * 
+	 * @param enabled
+	 */
+	public void setDrawCubic(boolean enabled) {
+		mDrawCubic = enabled;
+	}
 
-    /**
-     * Sets the colors that should be used for the circles of this DataSet.
-     * Colors are reused as soon as the number of Entries the DataSet represents
-     * is higher than the size of the colors array. Make sure that the colors
-     * are already prepared (by calling getResources().getColor(...)) before
-     * adding them to the DataSet.
-     * 
-     * @param colors
-     */
-    public void setCircleColors(ArrayList<Integer> colors) {
-        mCircleColors = colors;
-    }
+	/**
+	 * returns true if drawing cubic lines is enabled, false if not.
+	 * 
+	 * @return
+	 */
+	public boolean isDrawCubicEnabled() {
+		return mDrawCubic;
+	}
 
-    /**
-     * Sets the colors that should be used for the circles of this DataSet.
-     * Colors are reused as soon as the number of Entries the DataSet represents
-     * is higher than the size of the colors array. Make sure that the colors
-     * are already prepared (by calling getResources().getColor(...)) before
-     * adding them to the DataSet.
-     * 
-     * @param colors
-     */
-    public void setCircleColors(int[] colors) {
-        this.mCircleColors = ColorTemplate.createColors(colors);
-    }
+	/** ALL CODE BELOW RELATED TO CIRCLE-COLORS */
 
-    /**
-     * ets the colors that should be used for the circles of this DataSet.
-     * Colors are reused as soon as the number of Entries the DataSet represents
-     * is higher than the size of the colors array. You can use
-     * "new String[] { R.color.red, R.color.green, ... }" to provide colors for
-     * this method. Internally, the colors are resolved using
-     * getResources().getColor(...)
-     * 
-     * @param colors
-     */
-    public void setCircleColors(int[] colors, Context c) {
+	/**
+	 * returns all colors specified for the circles
+	 * 
+	 * @return
+	 */
+	public ArrayList<Integer> getCircleColors() {
+		return mCircleColors;
+	}
 
-        ArrayList<Integer> clrs = new ArrayList<Integer>();
+	/**
+	 * Returns the color at the given index of the DataSet's circle-color array.
+	 * Performs a IndexOutOfBounds check by modulus.
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public int getCircleColor(int index) {
+		return mCircleColors.get(index % mCircleColors.size());
+	}
 
-        for (int color : colors) {
-            clrs.add(c.getResources().getColor(color));
-        }
+	/**
+	 * Sets the colors that should be used for the circles of this DataSet.
+	 * Colors are reused as soon as the number of Entries the DataSet represents
+	 * is higher than the size of the colors array. Make sure that the colors
+	 * are already prepared (by calling getResources().getColor(...)) before
+	 * adding them to the DataSet.
+	 * 
+	 * @param colors
+	 */
+	public void setCircleColors(ArrayList<Integer> colors) {
+		mCircleColors = colors;
+	}
 
-        mCircleColors = clrs;
-    }
+	/**
+	 * Sets the colors that should be used for the circles of this DataSet.
+	 * Colors are reused as soon as the number of Entries the DataSet represents
+	 * is higher than the size of the colors array. Make sure that the colors
+	 * are already prepared (by calling getResources().getColor(...)) before
+	 * adding them to the DataSet.
+	 * 
+	 * @param colors
+	 */
+	public void setCircleColors(int[] colors) {
+		this.mCircleColors = ColorTemplate.createColors(colors);
+	}
 
-    /**
-     * Sets the one and ONLY color that should be used for this DataSet.
-     * Internally, this recreates the colors array and adds the specified color.
-     * 
-     * @param color
-     */
-    public void setCircleColor(int color) {
-        resetCircleColors();
-        mCircleColors.add(color);
-    }
+	/**
+	 * ets the colors that should be used for the circles of this DataSet.
+	 * Colors are reused as soon as the number of Entries the DataSet represents
+	 * is higher than the size of the colors array. You can use
+	 * "new String[] { R.color.red, R.color.green, ... }" to provide colors for
+	 * this method. Internally, the colors are resolved using
+	 * getResources().getColor(...)
+	 * 
+	 * @param colors
+	 */
+	public void setCircleColors(int[] colors, Context c) {
 
-    /**
-     * resets the circle-colors array and creates a new one
-     */
-    public void resetCircleColors() {
-        mCircleColors = new ArrayList<Integer>();
-    }
+		ArrayList<Integer> clrs = new ArrayList<Integer>();
+
+		for (int color : colors) {
+			clrs.add(c.getResources().getColor(color));
+		}
+
+		mCircleColors = clrs;
+	}
+
+	/**
+	 * Sets the one and ONLY color that should be used for this DataSet.
+	 * Internally, this recreates the colors array and adds the specified color.
+	 * 
+	 * @param color
+	 */
+	public void setCircleColor(int color) {
+		resetCircleColors();
+		mCircleColors.add(color);
+	}
+
+	/**
+	 * resets the circle-colors array and creates a new one
+	 */
+	public void resetCircleColors() {
+		mCircleColors = new ArrayList<Integer>();
+	}
 }
