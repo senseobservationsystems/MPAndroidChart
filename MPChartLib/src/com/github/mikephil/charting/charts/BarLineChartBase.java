@@ -142,10 +142,10 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleData<? exte
 		mListener = new BarLineChartTouchListener(this, mTrans.getTouchMatrix());
 
 		mGridPaint = new Paint();
-		mGridPaint.setColor(Color.GRAY);
+		mGridPaint.setColor(Color.WHITE);
 		mGridPaint.setStrokeWidth(mGridWidth);
 		mGridPaint.setStyle(Style.STROKE);
-		mGridPaint.setAlpha(90);
+		mGridPaint.setAlpha(255 * 20 / 100);
 
 		mBorderPaint = new Paint();
 		mBorderPaint.setColor(Color.BLACK);
@@ -383,9 +383,10 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleData<? exte
 		}
 
 		if (!isDrawLegendEnabled()) {
-			mOffsetBottom = 0;
+			mOffsetBottom = Utils.convertDpToPixel(4f);
 			mOffsetLeft = Utils.convertDpToPixel(24f);
 			mOffsetRight = Utils.convertDpToPixel(24f);
+			mOffsetTop = Utils.convertDpToPixel(4f);
 		}
 
 		prepareContentRect();
@@ -868,7 +869,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleData<? exte
 			mTrans.pointValuesToPixel(position);
 
 			if (position[0] >= mOffsetLeft && position[0] <= getWidth()) {
-
+				mGridPaint.setAlpha(255 * 40 / 100);
 				mDrawCanvas.drawLine(position[0], mOffsetTop, position[0],
 						getHeight(), mGridPaint);
 			}

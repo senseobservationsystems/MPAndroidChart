@@ -9,7 +9,6 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -156,7 +155,8 @@ public class LineChart extends BarLineChartBase<LineData> {
 
 			entries.add(0, new Entry(entries.get(0).getVal(), -1));
 
-			if (entries.size() - 1 >= 7) {
+			if (entries.size() - 1 >= 7
+					&& dataSet.getCircleColor(0) != Color.WHITE) {
 				entries.add(entries.size(),
 						new Entry(entries.get(entries.size() - 1).getVal(), 7));
 			}
@@ -452,7 +452,8 @@ public class LineChart extends BarLineChartBase<LineData> {
 					// Set the color for the currently drawn value. If the index
 					// is
 					// out of bounds, reuse colors.
-					mRenderPaint.setColor(dataSet.getCircleColor(j / 2));
+					int circleColor = dataSet.getCircleColor(j / 2);
+					mRenderPaint.setColor(circleColor);
 
 					if (isOffContentRight(positions[j]))
 						break;
@@ -474,8 +475,6 @@ public class LineChart extends BarLineChartBase<LineData> {
 									dataSet.getCircleSize() - 1f,
 									mEraserPaintInner);
 						}
-						Log.d("GRAPH", "J = " + j + " || phase = "
-								+ positions.length * mPhaseX);
 					} else {
 						mDrawCanvas
 								.drawCircle(positions[j], positions[j + 1],
