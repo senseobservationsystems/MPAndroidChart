@@ -153,13 +153,13 @@ public class LineChart extends BarLineChartBase<LineData> {
 			if (entries.size() < 1)
 				continue;
 
-			entries.add(0, new Entry(entries.get(0).getVal(), -1));
-
-			if (entries.size() - 1 >= 7
-					&& dataSet.getCircleColor(0) != Color.WHITE) {
-				entries.add(entries.size(),
-						new Entry(entries.get(entries.size() - 1).getVal(), 7));
-			}
+			// entries.add(0, new Entry(entries.get(0).getVal(), -1));
+			//
+			// if (entries.size() - 1 >= 7
+			// && dataSet.getCircleColor(0) != Color.WHITE) {
+			// entries.add(entries.size(),
+			// new Entry(entries.get(entries.size() - 1).getVal(), 7));
+			// }
 
 			mRenderPaint.setStrokeWidth(dataSet.getLineWidth());
 			mRenderPaint.setPathEffect(dataSet.getDashPathEffect());

@@ -383,7 +383,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleData<? exte
 		}
 
 		if (!isDrawLegendEnabled()) {
-			mOffsetBottom = Utils.convertDpToPixel(4f);
+			mOffsetBottom = Utils.convertDpToPixel(16f);
 			mOffsetLeft = Utils.convertDpToPixel(24f);
 			mOffsetRight = Utils.convertDpToPixel(24f);
 			mOffsetTop = Utils.convertDpToPixel(4f);
