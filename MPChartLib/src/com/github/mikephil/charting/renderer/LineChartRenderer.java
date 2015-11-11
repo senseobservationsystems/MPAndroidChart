@@ -14,8 +14,8 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.LineDataProvider;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.LineDataProvider;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -510,7 +510,7 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
             trans.pointValuesToPixel(buffer.buffer);
 
-            float halfsize = dataSet.getCircleSize() / 2f;
+            float halfsize = dataSet.getCircleSize() * 2f / 3f;
 
             for (int j = 0, count = (int) Math.ceil((maxx - minx) * phaseX + minx) * 2; j < count; j += 2) {
 

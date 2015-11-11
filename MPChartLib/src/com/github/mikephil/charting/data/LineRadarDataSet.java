@@ -21,7 +21,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     private int mFillAlpha = 85;
 
     /** the width of the drawn data lines */
-    private float mLineWidth = 2.5f;
+    private float mLineWidth = 0f;
 
     /** if true, the data will also be drawn filled */
     private boolean mDrawFilled = false;
@@ -77,8 +77,8 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
      */
     public void setLineWidth(float width) {
 
-        if (width < 0.2f)
-            width = 0.2f;
+//        if (width < 0.2f)
+//            width = 0.2f;
         if (width > 10.0f)
             width = 10.0f;
         mLineWidth = Utils.convertDpToPixel(width);
