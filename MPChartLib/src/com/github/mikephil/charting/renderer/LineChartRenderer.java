@@ -4,8 +4,10 @@ package com.github.mikephil.charting.renderer;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Shader;
 import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
@@ -274,7 +276,11 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
         trans.pathValueToPixel(spline);
 
-        drawFilledPath(c, spline, dataSet.getFillColor(), dataSet.getFillAlpha());
+        if (dataSet.hasGradient()) {
+            drawFilledPath(c, spline, dataSet.getFillColor(), dataSet.getFillColor2(), dataSet.getFillAlpha());
+        } else {
+            drawFilledPath(c, spline, dataSet.getFillColor(), dataSet.getFillAlpha());
+        }
     }
 
     /**
@@ -391,6 +397,18 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
         int color = (fillAlpha << 24) | (fillColor & 0xffffff);
         c.drawColor(color);
+        c.restore();
+    }
+
+    protected void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillColor2, int fillAlpha) {
+        c.save();
+        c.clipPath(filledPath);
+
+        mRenderPaint.setShader(new LinearGradient(0, 0, 0, mChart.getHeight(), fillColor, fillColor2, Shader.TileMode.MIRROR));
+
+        c.drawPath(filledPath, mRenderPaint);
+
+        mRenderPaint.setShader(null);
         c.restore();
     }
 
