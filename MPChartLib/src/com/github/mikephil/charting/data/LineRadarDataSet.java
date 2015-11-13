@@ -9,22 +9,33 @@ import java.util.List;
 
 /**
  * Base dataset for line and radar DataSets.
- * 
+ *
  * @author Philipp Jahoda
  */
 public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandleRadarDataSet<T> {
 
-    /** the color that is used for filling the line surface */
+    /**
+     * the color that is used for filling the line surface
+     */
     private int mFillColor = Color.rgb(140, 234, 255);
+    private int mFillColor2 = Color.rgb(140, 234, 255);
 
-    /** transparency used for filling line surface */
+    /**
+     * transparency used for filling line surface
+     */
     private int mFillAlpha = 85;
 
-    /** the width of the drawn data lines */
+    /**
+     * the width of the drawn data lines
+     */
     private float mLineWidth = 0f;
 
-    /** if true, the data will also be drawn filled */
+    /**
+     * if true, the data will also be drawn filled
+     */
     private boolean mDrawFilled = false;
+
+    private boolean mGradient = false;
 
 
     public LineRadarDataSet(List<T> yVals, String label) {
@@ -33,26 +44,34 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
 
     /**
      * returns the color that is used for filling the line surface
-     * 
+     *
      * @return
      */
     public int getFillColor() {
         return mFillColor;
     }
 
+    public int getFillColor2() {
+        return mFillColor2;
+    }
+
     /**
      * sets the color that is used for filling the line surface
-     * 
+     *
      * @param color
      */
     public void setFillColor(int color) {
         mFillColor = color;
     }
 
+    public void setFillColor2(int color) {
+        mFillColor2 = color;
+    }
+
     /**
      * returns the alpha value that is used for filling the line surface,
      * default: 85
-     * 
+     *
      * @return
      */
     public int getFillAlpha() {
@@ -62,7 +81,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     /**
      * sets the alpha value (transparency) that is used for filling the line
      * surface (0-255), default: 85
-     * 
+     *
      * @param alpha
      */
     public void setFillAlpha(int alpha) {
@@ -72,7 +91,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     /**
      * set the line width of the chart (min = 0.2f, max = 10f); default 1f NOTE:
      * thinner line == better performance, thicker line == worse performance
-     * 
+     *
      * @param width
      */
     public void setLineWidth(float width) {
@@ -86,7 +105,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
 
     /**
      * returns the width of the drawn chart line
-     * 
+     *
      * @return
      */
     public float getLineWidth() {
@@ -97,19 +116,28 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
      * Set to true if the DataSet should be drawn filled (surface), and not just
      * as a line, disabling this will give great performance boost! default:
      * false
-     * 
+     *
      * @param filled
      */
     public void setDrawFilled(boolean filled) {
         mDrawFilled = filled;
     }
 
+    public void setGradient(boolean gradient) {
+        mGradient = gradient;
+    }
+
     /**
      * returns true if filled drawing is enabled, false if not
-     * 
+     *
      * @return
      */
     public boolean isDrawFilledEnabled() {
         return mDrawFilled;
     }
+
+    public boolean hasGradient() {
+        return mGradient;
+    }
+
 }
