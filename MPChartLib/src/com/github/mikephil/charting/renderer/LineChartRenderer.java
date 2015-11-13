@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.buffer.CircleBuffer;
@@ -176,6 +177,12 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
             curDx = (next.getXIndex() - cur.getXIndex()) * intensity;
             curDy = (next.getVal() - cur.getVal()) * intensity;
 
+            Log.d("drawCubic", "prevPrev #" + minx + " : " + prevPrev.toString());
+            Log.d("drawCubic", "prev #" + minx + " : " + prev.toString());
+            Log.d("drawCubic", "cur #" + minx + " : " + cur.toString());
+            Log.d("drawCubic", "next #" + minx + " : " + next.toString());
+            Log.d("drawCubic", "============================================\n\n");
+
             // the first cubic
             cubicPath.cubicTo(prev.getXIndex() + prevDx, (prev.getVal() + prevDy) * phaseY,
                     cur.getXIndex() - curDx,
@@ -187,6 +194,12 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                 prev = entries.get(j - 1);
                 cur = entries.get(j);
                 next = entries.get(j + 1);
+
+                Log.d("drawCubic", "prevPrev #" + j + " : " + prevPrev.toString());
+                Log.d("drawCubic", "prev #" + j + " : " + prev.toString());
+                Log.d("drawCubic", "cur #" + j + " : " + cur.toString());
+                Log.d("drawCubic", "next #" + j + " : " + next.toString());
+                Log.d("drawCubic", "============================================\n\n");
 
                 prevDx = (cur.getXIndex() - prevPrev.getXIndex()) * intensity;
                 prevDy = (cur.getVal() - prevPrev.getVal()) * intensity;
@@ -206,13 +219,20 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                 cur = entries.get(entries.size() - 1);
                 next = cur;
 
+                Log.d("drawCubic", "prevPrev #last" + " : " + prevPrev.toString());
+                Log.d("drawCubic", "prev #last" + " : " + prev.toString());
+                Log.d("drawCubic", "cur #last" + " : " + cur.toString());
+                Log.d("drawCubic", "next #last" + " : " + next.toString());
+                Log.d("drawCubic", "============================================\n\n");
+
                 prevDx = (cur.getXIndex() - prevPrev.getXIndex()) * intensity;
                 prevDy = (cur.getVal() - prevPrev.getVal()) * intensity;
                 curDx = (next.getXIndex() - prev.getXIndex()) * intensity;
                 curDy = (next.getVal() - prev.getVal()) * intensity;
 
                 // the last cubic
-                cubicPath.cubicTo(prev.getXIndex() + prevDx, (prev.getVal() + prevDy) * phaseY,
+                cubicPath.cubicTo(prev.getXIndex() + prevDx, (prev.getVal() +
+                                prevDy) * phaseY,
                         cur.getXIndex() - curDx,
                         (cur.getVal() - curDy) * phaseY, cur.getXIndex(), cur.getVal() * phaseY);
             }
