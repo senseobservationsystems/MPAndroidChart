@@ -25,13 +25,13 @@ import com.github.mikephil.charting.data.BarLineScatterCandleBubbleDataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.filter.Approximator;
 import com.github.mikephil.charting.highlight.ChartHighlighter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.BarLineScatterCandleBubbleDataProvider;
 import com.github.mikephil.charting.jobs.MoveViewJob;
 import com.github.mikephil.charting.listener.BarLineChartTouchListener;
 import com.github.mikephil.charting.listener.OnDrawListener;
 import com.github.mikephil.charting.renderer.XAxisRenderer;
 import com.github.mikephil.charting.renderer.YAxisRenderer;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.PointD;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
@@ -228,8 +228,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
         // make sure the graph values and grid cannot be drawn outside the
         // content-rect
-        int clipRestoreCount = canvas.save();
-        canvas.clipRect(mViewPortHandler.getContentRect());
+//        int clipRestoreCount = canvas.save();
+//        canvas.clipRect(mViewPortHandler.getContentRect());
 
         mXAxisRenderer.renderGridLines(canvas);
         mAxisRendererLeft.renderGridLines(canvas);
@@ -260,7 +260,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
             mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
 
         // Removes clipping rectangle
-        canvas.restoreToCount(clipRestoreCount);
+//        canvas.restoreToCount(clipRestoreCount);
 
         mRenderer.drawExtras(canvas);
 
@@ -514,10 +514,14 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
             float minOffset = Utils.convertDpToPixel(mMinOffset);
 
-            mViewPortHandler.restrainViewPort(
-                    Math.max(minOffset, offsetLeft),
-                    Math.max(minOffset, offsetTop),
-                    Math.max(minOffset, offsetRight),
+//            mViewPortHandler.restrainViewPort(
+//                    Math.max(minOffset, offsetLeft),
+//                    Math.max(minOffset, offsetTop),
+//                    Math.max(minOffset, offsetRight),
+//                    Math.max(minOffset, offsetBottom));
+
+            mViewPortHandler.restrainViewPort(Utils.convertDpToPixel(0f),
+                    Math.max(minOffset, offsetTop), Utils.convertDpToPixel(0f),
                     Math.max(minOffset, offsetBottom));
 
             if (mLogEnabled) {
@@ -1133,12 +1137,16 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         mBorderPaint.setColor(color);
     }
 
-    /** Gets the minimum offset (padding) around the chart, defaults to 15.f */
+    /**
+     * Gets the minimum offset (padding) around the chart, defaults to 15.f
+     */
     public float getMinOffset() {
         return mMinOffset;
     }
 
-    /** Sets the minimum offset (padding) around the chart, defaults to 15.f */
+    /**
+     * Sets the minimum offset (padding) around the chart, defaults to 15.f
+     */
     public void setMinOffset(float minOffset) {
         mMinOffset = minOffset;
     }

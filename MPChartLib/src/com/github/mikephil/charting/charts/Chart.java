@@ -184,10 +184,10 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
     /**
      * Extra offsets to be appended to the viewport
      */
-    private float mExtraTopOffset = 0.f,
-            mExtraRightOffset = 0.f,
-            mExtraBottomOffset = 0.f,
-            mExtraLeftOffset = 0.f;
+    private float mExtraTopOffset = 0.0f,
+            mExtraRightOffset = 0.0f,
+            mExtraBottomOffset = 0.0f,
+            mExtraLeftOffset = 0.0f;
 
     /**
      * default constructor for initialization in code
