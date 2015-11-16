@@ -159,84 +159,19 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
         int size = (int) Math.ceil((maxx - minx) * phaseX + minx);
 
         if (size - minx >= 2) {
-
-            float prevDx = 0f;
-            float prevDy = 0f;
-            float curDx = 0f;
-            float curDy = 0f;
-
-            Entry prevPrev = entries.get(minx);
-            Entry prev = entries.get(minx);
             Entry cur = entries.get(minx);
-            Entry next = entries.get(minx + 1);
 
             // let the spline start
             cubicPath.moveTo(cur.getXIndex(), cur.getVal() * phaseY);
 
-            prevDx = (cur.getXIndex() - prev.getXIndex()) * intensity;
-            prevDy = (cur.getVal() - prev.getVal()) * intensity;
+            for (int j = minx + 1, count = Math.min(size, entries.size() - 1); j <= count; j++) {
+                Entry next = entries.get(j);
 
-            curDx = (next.getXIndex() - cur.getXIndex()) * intensity;
-            curDy = (next.getVal() - cur.getVal()) * intensity;
+                float offset = (next.getXIndex() - cur.getXIndex()) * intensity;
 
-            Log.d("drawCubic", "prevPrev #" + minx + " : " + prevPrev.toString());
-            Log.d("drawCubic", "prev #" + minx + " : " + prev.toString());
-            Log.d("drawCubic", "cur #" + minx + " : " + cur.toString());
-            Log.d("drawCubic", "next #" + minx + " : " + next.toString());
-            Log.d("drawCubic", "============================================\n\n");
+                cubicPath.cubicTo(next.getXIndex() - offset, cur.getVal() * phaseY, cur.getXIndex() + offset, next.getVal(), next.getXIndex(), next.getVal() * phaseY);
 
-            // the first cubic
-            cubicPath.cubicTo(prev.getXIndex() + prevDx, (prev.getVal() + prevDy) * phaseY,
-                    cur.getXIndex() - curDx,
-                    (cur.getVal() - curDy) * phaseY, cur.getXIndex(), cur.getVal() * phaseY);
-
-            for (int j = minx + 1, count = Math.min(size, entries.size() - 1); j < count; j++) {
-
-                prevPrev = entries.get(j == 1 ? 0 : j - 2);
-                prev = entries.get(j - 1);
-                cur = entries.get(j);
-                next = entries.get(j + 1);
-
-                Log.d("drawCubic", "prevPrev #" + j + " : " + prevPrev.toString());
-                Log.d("drawCubic", "prev #" + j + " : " + prev.toString());
-                Log.d("drawCubic", "cur #" + j + " : " + cur.toString());
-                Log.d("drawCubic", "next #" + j + " : " + next.toString());
-                Log.d("drawCubic", "============================================\n\n");
-
-                prevDx = (cur.getXIndex() - prevPrev.getXIndex()) * intensity;
-                prevDy = (cur.getVal() - prevPrev.getVal()) * intensity;
-                curDx = (next.getXIndex() - prev.getXIndex()) * intensity;
-                curDy = (next.getVal() - prev.getVal()) * intensity;
-
-                cubicPath.cubicTo(prev.getXIndex() + prevDx, (prev.getVal() + prevDy) * phaseY,
-                        cur.getXIndex() - curDx,
-                        (cur.getVal() - curDy) * phaseY, cur.getXIndex(), cur.getVal() * phaseY);
-            }
-
-            if (size > entries.size() - 1) {
-
-                prevPrev = entries.get((entries.size() >= 3) ? entries.size() - 3
-                        : entries.size() - 2);
-                prev = entries.get(entries.size() - 2);
-                cur = entries.get(entries.size() - 1);
-                next = cur;
-
-                Log.d("drawCubic", "prevPrev #last" + " : " + prevPrev.toString());
-                Log.d("drawCubic", "prev #last" + " : " + prev.toString());
-                Log.d("drawCubic", "cur #last" + " : " + cur.toString());
-                Log.d("drawCubic", "next #last" + " : " + next.toString());
-                Log.d("drawCubic", "============================================\n\n");
-
-                prevDx = (cur.getXIndex() - prevPrev.getXIndex()) * intensity;
-                prevDy = (cur.getVal() - prevPrev.getVal()) * intensity;
-                curDx = (next.getXIndex() - prev.getXIndex()) * intensity;
-                curDy = (next.getVal() - prev.getVal()) * intensity;
-
-                // the last cubic
-                cubicPath.cubicTo(prev.getXIndex() + prevDx, (prev.getVal() +
-                                prevDy) * phaseY,
-                        cur.getXIndex() - curDx,
-                        (cur.getVal() - curDy) * phaseY, cur.getXIndex(), cur.getVal() * phaseY);
+                cur = next;
             }
         }
 
