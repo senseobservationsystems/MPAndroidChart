@@ -84,8 +84,8 @@ public class LineDataSet extends LineRadarDataSet<Entry> {
      */
     public void setCubicIntensity(float intensity) {
 
-        if (intensity > 1f)
-            intensity = 1f;
+        if (intensity > 0.95f)
+            intensity = 0.95f;
         if (intensity < 0.05f)
             intensity = 0.05f;
 
