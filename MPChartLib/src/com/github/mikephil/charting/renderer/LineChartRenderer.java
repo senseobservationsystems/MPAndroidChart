@@ -462,8 +462,6 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                     dataSet.getEntryCount() == 0)
                 continue;
 
-            mCirclePaintInner.setColor(dataSet.getCircleHoleColor());
-
             Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
             List<Entry> entries = dataSet.getYVals();
 
@@ -483,7 +481,7 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
             trans.pointValuesToPixel(buffer.buffer);
 
-            float halfsize = dataSet.getCircleSize() * 2f / 3f;
+            float halfsize = dataSet.getCircleSize() * 2.0f / 3.0f;
 
             for (int j = 0, count = (int) Math.ceil((maxx - minx) * phaseX + minx) * 2; j < count; j += 2) {
 
@@ -501,8 +499,17 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                 int circleColor = dataSet.getCircleColor(j / 2 + minx);
 
                 mRenderPaint.setColor(circleColor);
+                mCirclePaintInner.setColor(dataSet.getCircleHoleColor(j / 2 + minx));
 
-                c.drawCircle(x, y, dataSet.getCircleSize(),
+                float circleSize = dataSet.getCircleSize();
+                Log.d("CIRCLEINDEX", "j : " + j);
+                Log.d("CIRCLEINDEX", "count : " + count);
+                if (j >= count || count - j <= 2) {
+                    circleSize = dataSet.getCircleSize() * 3.0f / 2.0f;
+                    halfsize = halfsize * 3.0f / 2.0f;
+                }
+
+                c.drawCircle(x, y, circleSize,
                         mRenderPaint);
 
                 if (dataSet.isDrawCircleHoleEnabled()

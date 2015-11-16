@@ -521,7 +521,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 //                    Math.max(minOffset, offsetBottom));
 
             mViewPortHandler.restrainViewPort(Utils.convertDpToPixel(0f),
-                    Math.max(minOffset, offsetTop), Utils.convertDpToPixel(0f),
+                    Utils.convertDpToPixel(0f), Utils.convertDpToPixel(0f),
                     Math.max(minOffset, offsetBottom));
 
             if (mLogEnabled) {
