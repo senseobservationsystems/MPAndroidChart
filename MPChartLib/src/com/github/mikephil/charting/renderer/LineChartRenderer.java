@@ -8,7 +8,6 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
-import android.util.Log;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.buffer.CircleBuffer;
@@ -442,7 +441,7 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
     @Override
     public void drawExtras(Canvas c) {
-        drawCircles(c);
+        drawCirclesWithState(c);
     }
 
     protected void drawCircles(Canvas c) {
@@ -481,7 +480,7 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
             trans.pointValuesToPixel(buffer.buffer);
 
-            float halfsize = dataSet.getCircleSize() * 2.0f / 3.0f;
+            float halfsize = dataSet.getCircleSize() * 4.0f / 5.0f;
 
             for (int j = 0, count = (int) Math.ceil((maxx - minx) * phaseX + minx) * 2; j < count; j += 2) {
 
@@ -502,11 +501,91 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                 mCirclePaintInner.setColor(dataSet.getCircleHoleColor(j / 2 + minx));
 
                 float circleSize = dataSet.getCircleSize();
-                Log.d("CIRCLEINDEX", "j : " + j);
-                Log.d("CIRCLEINDEX", "count : " + count);
                 if (j >= count || count - j <= 2) {
                     circleSize = dataSet.getCircleSize() * 3.0f / 2.0f;
-                    halfsize = halfsize * 3.0f / 2.0f;
+                    halfsize = circleSize * 4.0f / 5.0f;
+                }
+
+                c.drawCircle(x, y, circleSize,
+                        mRenderPaint);
+
+                if (dataSet.isDrawCircleHoleEnabled()
+                        && circleColor != mCirclePaintInner.getColor())
+                    c.drawCircle(x, y,
+                            halfsize,
+                            mCirclePaintInner);
+            }
+        }
+    }
+
+    protected void drawCirclesWithState(Canvas c) {
+
+        mRenderPaint.setStyle(Paint.Style.FILL);
+
+        float phaseX = mAnimator.getPhaseX();
+        float phaseY = mAnimator.getPhaseY();
+
+        List<LineDataSet> dataSets = mChart.getLineData().getDataSets();
+
+        for (int i = 0; i < dataSets.size(); i++) {
+
+            LineDataSet dataSet = dataSets.get(i);
+            LineDataSet dataSet2 = null;
+            if (i == 0)
+                dataSet2 = dataSets.get(i + 1);
+
+            if (!dataSet.isVisible() || !dataSet.isDrawCirclesEnabled() ||
+                    dataSet.getEntryCount() == 0)
+                continue;
+
+            Transformer trans = mChart.getTransformer(dataSet.getAxisDependency());
+            List<Entry> entries = dataSet.getYVals();
+
+            Entry entryFrom = dataSet.getEntryForXIndex((mMinX < 0) ? 0 : mMinX);
+            Entry entryTo = dataSet.getEntryForXIndex(mMaxX);
+
+            int diff = (entryFrom == entryTo) ? 1 : 0;
+            int minx = Math.max(dataSet.getEntryPosition(entryFrom) - diff, 0);
+            int maxx = Math.min(Math.max(
+                    minx + 2, dataSet.getEntryPosition(entryTo) + 1), entries.size());
+
+            CircleBuffer buffer = mCircleBuffers[i];
+            buffer.setPhases(phaseX, phaseY);
+            buffer.limitFrom(minx);
+            buffer.limitTo(maxx);
+            buffer.feed(entries);
+
+            trans.pointValuesToPixel(buffer.buffer);
+
+            float halfsize = dataSet.getCircleSize() * 4.0f / 5.0f;
+
+            for (int j = 0, count = (int) Math.ceil((maxx - minx) * phaseX + minx) * 2; j < count; j += 2) {
+
+                float x = buffer.buffer[j];
+                float y = buffer.buffer[j + 1];
+
+                if (!mViewPortHandler.isInBoundsRight(x))
+                    break;
+
+                // make sure the circles don't do shitty things outside
+                // bounds
+                if (!mViewPortHandler.isInBoundsLeft(x) || !mViewPortHandler.isInBoundsY(y))
+                    continue;
+
+                int circleColor = dataSet.getCircleColor(j / 2 + minx);
+
+                mRenderPaint.setColor(circleColor);
+                mCirclePaintInner.setColor(dataSet.getCircleHoleColor(j / 2 + minx));
+                if (dataSet2 != null && i == 0 && dataSet.getYValForXIndex(j / 2 + minx) >= dataSet2.getYValForXIndex(j / 2 + minx)) {
+                    mCirclePaintInner.setColor(dataSet.getSuccessColor());
+                } else if (dataSet2 != null && i == 0 && dataSet.getYValForXIndex(j / 2 + minx) < dataSet2.getYValForXIndex(j / 2 + minx)) {
+                    mCirclePaintInner.setColor(dataSet.getFailedColor());
+                }
+
+                float circleSize = dataSet.getCircleSize();
+                if (j >= count || count - j <= 2) {
+                    circleSize = dataSet.getCircleSize() * 3.0f / 2.0f;
+                    halfsize = circleSize * 4.0f / 5.0f;
                 }
 
                 c.drawCircle(x, y, circleSize,

@@ -25,6 +25,10 @@ public class LineDataSet extends LineRadarDataSet<Entry> {
      */
     private List<Integer> mCircleHoleColors = null;
 
+    private int mSuccessColor;
+
+    private int mFailedColor;
+
     /**
      * the radius of the circle-shaped value indicators
      */
@@ -421,5 +425,21 @@ public class LineDataSet extends LineRadarDataSet<Entry> {
      */
     public void resetCircleHoleColors() {
         mCircleHoleColors = new ArrayList<Integer>();
+    }
+
+    public int getSuccessColor() {
+        return mSuccessColor;
+    }
+
+    public void setSuccessColor(int mSuccessColor) {
+        this.mSuccessColor = mSuccessColor;
+    }
+
+    public int getFailedColor() {
+        return mFailedColor;
+    }
+
+    public void setFailedColor(int mFailedColor) {
+        this.mFailedColor = mFailedColor;
     }
 }
