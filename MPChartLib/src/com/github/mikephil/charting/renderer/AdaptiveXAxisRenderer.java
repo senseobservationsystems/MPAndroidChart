@@ -70,7 +70,7 @@ public class AdaptiveXAxisRenderer extends XAxisRenderer {
             }
         }
 
-        for (int i = 0; i < posYArray.length; i += mXAxis.mAxisLabelModulus) {
+        for (int i = 0; i < dataSets.get(0).getEntryCount() - 1; i += mXAxis.mAxisLabelModulus) {
 
             position[0] = i;
             position[1] = posYArray[i];
