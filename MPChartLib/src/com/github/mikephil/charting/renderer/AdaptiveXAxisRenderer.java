@@ -2,7 +2,6 @@ package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
 import android.graphics.Path;
-import android.util.Log;
 
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -40,7 +39,7 @@ public class AdaptiveXAxisRenderer extends XAxisRenderer {
             return;
 
         // pre alloc
-        float[] position = new float[] {
+        float[] position = new float[]{
                 0f, 0f
         };
 
@@ -50,12 +49,16 @@ public class AdaptiveXAxisRenderer extends XAxisRenderer {
 
         Path gridLinePath = new Path();
 
+        if (mLineData == null) // return if the line data is 0
+            return;
         List<LineDataSet> dataSets = mLineData.getDataSets();
         if (dataSets.size() < 1) // return if the line data is 0
             return;
 
-        float[] posYArray = new float[dataSets.get(0).getEntryCount()];
-        for (int i = 0; i < posYArray.length; i++) { posYArray[i] = 0; }
+        float[] posYArray = new float[Math.max(dataSets.get(0).getEntryCount(), dataSets.get(1).getEntryCount())];
+        for (int i = 0; i < posYArray.length; i++) {
+            posYArray[i] = 0;
+        }
 
         for (int i = 0; i < dataSets.size(); i++) {
             List<Entry> entries = dataSets.get(i).getYVals();
@@ -67,7 +70,7 @@ public class AdaptiveXAxisRenderer extends XAxisRenderer {
             }
         }
 
-        for (int i = 0; i < dataSets.get(0).getEntryCount(); i += mXAxis.mAxisLabelModulus) {
+        for (int i = 0; i < posYArray.length; i += mXAxis.mAxisLabelModulus) {
 
             position[0] = i;
             position[1] = posYArray[i];

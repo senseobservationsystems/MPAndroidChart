@@ -295,7 +295,7 @@ public class YAxisRenderer extends AxisRenderer {
 
             LimitLine l = limitLines.get(i);
 
-            if(!l.isEnabled())
+            if (!l.isEnabled())
                 continue;
 
             mLimitLinePaint.setStyle(Paint.Style.STROKE);
@@ -304,15 +304,17 @@ public class YAxisRenderer extends AxisRenderer {
             mLimitLinePaint.setPathEffect(l.getDashPathEffect());
 
             pts[1] = l.getLimit();
+            // TODO : CHANGE IT TO ADAPTIVE FOR DATA MORE THAN 1 WEEK!!
+            pts[0] = l.IsPersonalGoal() ? 6.0f : 0.0f;
 
             mTrans.pointValuesToPixel(pts);
 
-            limitLinePath.moveTo(mViewPortHandler.contentLeft(), pts[1]);
+            limitLinePath.moveTo(mViewPortHandler.contentLeft() + pts[0], pts[1]);
             limitLinePath.lineTo(mViewPortHandler.contentRight(), pts[1]);
 
             c.drawPath(limitLinePath, mLimitLinePaint);
             limitLinePath.reset();
-            // c.drawLines(pts, mLimitLinePaint);
+            // c.drawLines(pts, mLimitLinePai0000nt);
 
             String label = l.getLabel();
 
