@@ -580,6 +580,8 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                     mCirclePaintInner.setColor(dataSet.getSuccessColor());
                 } else if (dataSet2 != null && i == 0 && dataSet.getYValForXIndex(j / 2 + minx) < dataSet2.getYValForXIndex(j / 2 + minx)) {
                     mCirclePaintInner.setColor(dataSet.getFailedColor());
+                } else {
+                    mCirclePaintInner.setColor(dataSet.getFailedColor());
                 }
 
                 float circleSize = dataSet.getCircleSize();
