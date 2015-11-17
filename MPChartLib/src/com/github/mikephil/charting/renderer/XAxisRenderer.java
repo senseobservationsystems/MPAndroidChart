@@ -21,6 +21,7 @@ import java.util.List;
 public class XAxisRenderer extends AxisRenderer {
 
     protected XAxis mXAxis;
+    private int activeIndex;
 
     public XAxisRenderer(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) {
         super(viewPortHandler, trans);
@@ -173,10 +174,7 @@ public class XAxisRenderer extends AxisRenderer {
                     }
                 }
 
-                if (i == mMaxX) {
-                    mAxisLabelPaint.setColor(Color.WHITE);
-                }
-
+                mAxisLabelPaint.setColor(i == activeIndex ? Color.WHITE : mXAxis.getTextColor());
                 drawLabel(c, label, i, position[0], pos, anchor, labelRotationAngleDegrees);
             }
         }
@@ -314,4 +312,11 @@ public class XAxisRenderer extends AxisRenderer {
         }
     }
 
+    public int getActiveIndex() {
+        return activeIndex;
+    }
+
+    public void setActiveIndex(int activeIndex) {
+        this.activeIndex = activeIndex;
+    }
 }
