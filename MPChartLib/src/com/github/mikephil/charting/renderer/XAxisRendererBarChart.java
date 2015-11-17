@@ -11,7 +11,7 @@ import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-public class XAxisRendererBarChart extends XAxisRenderer {
+public class XAxisRendererBarChart extends AdaptiveXAxisRenderer {
 
     protected BarChart mChart;
 
