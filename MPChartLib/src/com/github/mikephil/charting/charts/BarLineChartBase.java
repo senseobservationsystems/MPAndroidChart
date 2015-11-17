@@ -30,6 +30,7 @@ import com.github.mikephil.charting.interfaces.BarLineScatterCandleBubbleDataPro
 import com.github.mikephil.charting.jobs.MoveViewJob;
 import com.github.mikephil.charting.listener.BarLineChartTouchListener;
 import com.github.mikephil.charting.listener.OnDrawListener;
+import com.github.mikephil.charting.renderer.AdaptiveXAxisRenderer;
 import com.github.mikephil.charting.renderer.XAxisRenderer;
 import com.github.mikephil.charting.renderer.YAxisRenderer;
 import com.github.mikephil.charting.utils.PointD;
@@ -130,7 +131,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     protected Transformer mLeftAxisTransformer;
     protected Transformer mRightAxisTransformer;
 
-    protected XAxisRenderer mXAxisRenderer;
+    protected AdaptiveXAxisRenderer mXAxisRenderer;
 
     // /** the approximator object used for data filtering */
     // private Approximator mApproximator;
@@ -162,7 +163,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         mAxisRendererLeft = new YAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
         mAxisRendererRight = new YAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
 
-        mXAxisRenderer = new XAxisRenderer(mViewPortHandler, mXAxis, mLeftAxisTransformer);
+        mXAxisRenderer = new AdaptiveXAxisRenderer(mViewPortHandler, mXAxis, mLeftAxisTransformer);
 
         mHighlighter = new ChartHighlighter(this);
 
@@ -231,10 +232,6 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         int clipRestoreCount = canvas.save();
         canvas.clipRect(mViewPortHandler.getContentRect());
 
-        mXAxisRenderer.renderGridLines(canvas);
-        mAxisRendererLeft.renderGridLines(canvas);
-        mAxisRendererRight.renderGridLines(canvas);
-
         if (mXAxis.isDrawLimitLinesBehindDataEnabled())
             mXAxisRenderer.renderLimitLines(canvas);
 
@@ -275,6 +272,11 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         drawMarkers(canvas);
 
         drawDescription(canvas);
+
+        mXAxisRenderer.setPhaseY(getAnimator().getPhaseY());
+        mXAxisRenderer.renderGridLines(canvas);
+        mAxisRendererLeft.renderGridLines(canvas);
+        mAxisRendererRight.renderGridLines(canvas);
 
         if (mLogEnabled) {
             long drawtime = (System.currentTimeMillis() - starttime);
@@ -1439,7 +1441,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         return mViewPortHandler.hasNoDragOffset();
     }
 
-    public XAxisRenderer getRendererXAxis() {
+    public AdaptiveXAxisRenderer getRendererXAxis() {
         return mXAxisRenderer;
     }
 
@@ -1448,7 +1450,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
      *
      * @param xAxisRenderer
      */
-    public void setXAxisRenderer(XAxisRenderer xAxisRenderer) {
+    public void setXAxisRenderer(AdaptiveXAxisRenderer xAxisRenderer) {
         mXAxisRenderer = xAxisRenderer;
     }
 
