@@ -338,6 +338,7 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
         c.save();
         c.clipPath(filledPath);
 
+        mRenderPaint.setDither(true);
         mRenderPaint.setShader(new LinearGradient(0, 0, 0, mChart.getHeight(), fillColor, fillColor2, Shader.TileMode.MIRROR));
 
         c.drawPath(filledPath, mRenderPaint);
