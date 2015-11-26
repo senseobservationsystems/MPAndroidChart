@@ -31,7 +31,6 @@ import com.github.mikephil.charting.jobs.MoveViewJob;
 import com.github.mikephil.charting.listener.BarLineChartTouchListener;
 import com.github.mikephil.charting.listener.OnDrawListener;
 import com.github.mikephil.charting.renderer.AdaptiveXAxisRenderer;
-import com.github.mikephil.charting.renderer.XAxisRenderer;
 import com.github.mikephil.charting.renderer.YAxisRenderer;
 import com.github.mikephil.charting.utils.PointD;
 import com.github.mikephil.charting.utils.Transformer;
@@ -258,25 +257,22 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
         // Removes clipping rectangle
         canvas.restoreToCount(clipRestoreCount);
-
-        mRenderer.drawExtras(canvas);
-
+        
         mXAxisRenderer.renderAxisLabels(canvas);
         mAxisRendererLeft.renderAxisLabels(canvas);
         mAxisRendererRight.renderAxisLabels(canvas);
+        mXAxisRenderer.setPhaseY(getAnimator().getPhaseY());
+        mXAxisRenderer.renderGridLines(canvas);
+        mAxisRendererLeft.renderGridLines(canvas);
+        mAxisRendererRight.renderGridLines(canvas);
 
+        mRenderer.drawExtras(canvas);
         mRenderer.drawValues(canvas);
 
         mLegendRenderer.renderLegend(canvas);
 
         drawMarkers(canvas);
-
         drawDescription(canvas);
-
-        mXAxisRenderer.setPhaseY(getAnimator().getPhaseY());
-        mXAxisRenderer.renderGridLines(canvas);
-        mAxisRendererLeft.renderGridLines(canvas);
-        mAxisRendererRight.renderGridLines(canvas);
 
         if (mLogEnabled) {
             long drawtime = (System.currentTimeMillis() - starttime);
