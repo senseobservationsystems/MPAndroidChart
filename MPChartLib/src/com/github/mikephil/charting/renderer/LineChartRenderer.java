@@ -591,14 +591,18 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                     halfsize = circleSize * 4.0f / 5.0f;
                 }
 
-                c.drawCircle(x, y, circleSize,
-                        mRenderPaint);
+                if (dataSet.getInitPoint()) {
+                    dataSet.setInitPoint(false);
+                } else {
+                    c.drawCircle(x, y, circleSize,
+                            mRenderPaint);
 
-                if (dataSet.isDrawCircleHoleEnabled()
-                        && circleColor != mCirclePaintInner.getColor())
-                    c.drawCircle(x, y,
-                            halfsize,
-                            mCirclePaintInner);
+                    if (dataSet.isDrawCircleHoleEnabled()
+                            && circleColor != mCirclePaintInner.getColor())
+                        c.drawCircle(x, y,
+                                halfsize,
+                                mCirclePaintInner);
+                }
             }
         }
     }

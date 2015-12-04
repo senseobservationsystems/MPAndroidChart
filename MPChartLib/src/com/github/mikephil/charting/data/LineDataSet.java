@@ -29,6 +29,8 @@ public class LineDataSet extends LineRadarDataSet<Entry> {
 
     private int mFailedColor;
 
+    private boolean mInitPoint = false;
+
     /**
      * the radius of the circle-shaped value indicators
      */
@@ -441,5 +443,13 @@ public class LineDataSet extends LineRadarDataSet<Entry> {
 
     public void setFailedColor(int mFailedColor) {
         this.mFailedColor = mFailedColor;
+    }
+
+    public void setInitPoint(boolean mInitPoint) {
+        this.mInitPoint = mInitPoint;
+    }
+
+    public boolean getInitPoint() {
+        return this.mInitPoint;
     }
 }
