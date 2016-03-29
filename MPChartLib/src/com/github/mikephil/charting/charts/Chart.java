@@ -156,7 +156,7 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
      * Gesture listener for custom callbacks when making gestures on the chart.
      */
     private OnChartGestureListener mGestureListener;
- 
+
     /**
      * text that is displayed when the chart is empty that describes why the
      * chart is empty
