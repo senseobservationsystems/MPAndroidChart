@@ -149,7 +149,7 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
     /**
      * text that is displayed when the chart is empty
      */
-    private String mNoDataText = "No chart data available.";
+    //private String mNoDataText = "No chart data available.";
     private String mNoDataText = "";
 
     /**
